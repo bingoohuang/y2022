@@ -1,0 +1,84 @@
+
+state 0
+	$accept: .start $end 
+	instructions: .    (2)
+
+	.  reduce 2 (src line 22)
+
+	start  goto 1
+	instructions  goto 2
+
+state 1
+	$accept:  start.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	start:  instructions.    (1)
+	instructions:  instructions.instruction 
+
+	tkLoopStart  shift 4
+	tkInstruction  shift 5
+	tkComment  shift 6
+	.  reduce 1 (src line 18)
+
+	instruction  goto 3
+
+state 3
+	instructions:  instructions instruction.    (3)
+
+	.  reduce 3 (src line 25)
+
+
+state 4
+	instruction:  tkLoopStart.instructions tkLoopEnd 
+	instructions: .    (2)
+
+	.  reduce 2 (src line 22)
+
+	instructions  goto 7
+
+state 5
+	instruction:  tkInstruction.    (5)
+
+	.  reduce 5 (src line 32)
+
+
+state 6
+	instruction:  tkComment.    (6)
+
+	.  reduce 6 (src line 35)
+
+
+state 7
+	instructions:  instructions.instruction 
+	instruction:  tkLoopStart instructions.tkLoopEnd 
+
+	tkLoopStart  shift 4
+	tkLoopEnd  shift 8
+	tkInstruction  shift 5
+	tkComment  shift 6
+	.  error
+
+	instruction  goto 3
+
+state 8
+	instruction:  tkLoopStart instructions tkLoopEnd.    (4)
+
+	.  reduce 4 (src line 29)
+
+
+7 terminals, 4 nonterminals
+7 grammar rules, 9/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+53 working sets used
+memory: parser 3/240000
+6 extra closures
+7 shift entries, 1 exceptions
+4 goto entries
+1 entries saved by goto default
+Optimizer space used: output 11/240000
+11 table entries, 0 zero
+maximum spread: 7, maximum offset: 4

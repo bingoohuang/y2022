@@ -1,0 +1,213 @@
+
+state 0
+	$accept: .start $end 
+
+	TARRAYOPEN  shift 4
+	TOBJECTOPEN  shift 3
+	TSTRING  shift 6
+	TNUMBER  shift 5
+	TFALSE  shift 8
+	TTRUE  shift 7
+	TNULL  shift 9
+	.  error
+
+	start  goto 1
+	value  goto 2
+
+state 1
+	$accept:  start.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	start:  value.    (1)
+
+	.  reduce 1 (src line 32)
+
+
+state 3
+	value:  TOBJECTOPEN.objectvalues TOBJECTCLOSE 
+	objectvalues: .    (11)
+
+	TSTRING  shift 11
+	.  reduce 11 (src line 56)
+
+	objectvalues  goto 10
+
+state 4
+	value:  TARRAYOPEN.arrayvalues TARRAYCLOSE 
+	arrayvalues: .    (14)
+
+	TARRAYOPEN  shift 4
+	TOBJECTOPEN  shift 3
+	TSTRING  shift 6
+	TNUMBER  shift 5
+	TFALSE  shift 8
+	TTRUE  shift 7
+	TNULL  shift 9
+	.  reduce 14 (src line 68)
+
+	value  goto 13
+	arrayvalues  goto 12
+
+state 5
+	value:  TNUMBER.    (4)
+
+	.  reduce 4 (src line 42)
+
+
+state 6
+	value:  TSTRING.    (5)
+
+	.  reduce 5 (src line 43)
+
+
+state 7
+	value:  TTRUE.    (6)
+
+	.  reduce 6 (src line 44)
+
+
+state 8
+	value:  TFALSE.    (7)
+
+	.  reduce 7 (src line 45)
+
+
+state 9
+	value:  TNULL.    (8)
+
+	.  reduce 8 (src line 46)
+
+
+state 10
+	value:  TOBJECTOPEN objectvalues.TOBJECTCLOSE 
+	objectvalues:  objectvalues.TCOMMA TSTRING TCOLON value 
+
+	TOBJECTCLOSE  shift 14
+	TCOMMA  shift 15
+	.  error
+
+
+state 11
+	objectvalues:  TSTRING.TCOLON value 
+
+	TCOLON  shift 16
+	.  error
+
+
+state 12
+	value:  TARRAYOPEN arrayvalues.TARRAYCLOSE 
+	arrayvalues:  arrayvalues.TCOMMA value 
+
+	TARRAYCLOSE  shift 17
+	TCOMMA  shift 18
+	.  error
+
+
+state 13
+	arrayvalues:  value.    (12)
+
+	.  reduce 12 (src line 61)
+
+
+state 14
+	value:  TOBJECTOPEN objectvalues TOBJECTCLOSE.    (2)
+
+	.  reduce 2 (src line 39)
+
+
+state 15
+	objectvalues:  objectvalues TCOMMA.TSTRING TCOLON value 
+
+	TSTRING  shift 19
+	.  error
+
+
+state 16
+	objectvalues:  TSTRING TCOLON.value 
+
+	TARRAYOPEN  shift 4
+	TOBJECTOPEN  shift 3
+	TSTRING  shift 6
+	TNUMBER  shift 5
+	TFALSE  shift 8
+	TTRUE  shift 7
+	TNULL  shift 9
+	.  error
+
+	value  goto 20
+
+state 17
+	value:  TARRAYOPEN arrayvalues TARRAYCLOSE.    (3)
+
+	.  reduce 3 (src line 41)
+
+
+state 18
+	arrayvalues:  arrayvalues TCOMMA.value 
+
+	TARRAYOPEN  shift 4
+	TOBJECTOPEN  shift 3
+	TSTRING  shift 6
+	TNUMBER  shift 5
+	TFALSE  shift 8
+	TTRUE  shift 7
+	TNULL  shift 9
+	.  error
+
+	value  goto 21
+
+state 19
+	objectvalues:  objectvalues TCOMMA TSTRING.TCOLON value 
+
+	TCOLON  shift 22
+	.  error
+
+
+state 20
+	objectvalues:  TSTRING TCOLON value.    (9)
+
+	.  reduce 9 (src line 49)
+
+
+state 21
+	arrayvalues:  arrayvalues TCOMMA value.    (13)
+
+	.  reduce 13 (src line 65)
+
+
+state 22
+	objectvalues:  objectvalues TCOMMA TSTRING TCOLON.value 
+
+	TARRAYOPEN  shift 4
+	TOBJECTOPEN  shift 3
+	TSTRING  shift 6
+	TNUMBER  shift 5
+	TFALSE  shift 8
+	TTRUE  shift 7
+	TNULL  shift 9
+	.  error
+
+	value  goto 23
+
+state 23
+	objectvalues:  objectvalues TCOMMA TSTRING TCOLON value.    (10)
+
+	.  reduce 10 (src line 53)
+
+
+14 terminals, 5 nonterminals
+15 grammar rules, 24/16000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+54 working sets used
+memory: parser 7/240000
+11 extra closures
+43 shift entries, 1 exceptions
+8 goto entries
+0 entries saved by goto default
+Optimizer space used: output 24/240000
+24 table entries, 1 zero
+maximum spread: 14, maximum offset: 22
