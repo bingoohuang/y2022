@@ -1,8 +1,8 @@
 package brainfuck
 
 import (
-	"testing"
 	"strings"
+	"testing"
 )
 
 func TestParse(t *testing.T) {
@@ -12,7 +12,7 @@ func TestParse(t *testing.T) {
 		t.Errorf("Parse error: %q", err.Error())
 	} else {
 		expected := "+++\n[\n  >, Comment .<-\n]\n"
-		indenter := &Indenter{Indentation:"  "}
+		indenter := &Indenter{Indentation: "  "}
 		actual := indenter.Indent(program)
 		if expected != actual {
 			t.Errorf("Wrong program: expected %q, got %q", expected, actual)
@@ -22,8 +22,8 @@ func TestParse(t *testing.T) {
 
 type Indenter struct {
 	Indentation string
-	depth int
-	output string
+	depth       int
+	output      string
 }
 
 func (ind *Indenter) Indent(program Program) string {
